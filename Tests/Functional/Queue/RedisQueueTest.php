@@ -2,7 +2,7 @@
 namespace TYPO3\Jobqueue\Redis\Tests\Functional\Queue;
 
 /*                                                                        *
- * This script belongs to the FLOW3 package "Jobqueue.Redis".                *
+ * This script belongs to the TYPO3 Flow package "Jobqueue.Redis".        *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU General Public License, either version 3 of the   *
@@ -14,7 +14,7 @@ namespace TYPO3\Jobqueue\Redis\Tests\Functional\Queue;
 /**
  * Functional test for RedisQueue
  */
-class RedisQueueTest extends \TYPO3\FLOW3\Tests\FunctionalTestCase {
+class RedisQueueTest extends \TYPO3\Flow\Tests\FunctionalTestCase {
 
 	/**
 	 * @var \TYPO3\Jobqueue\Redis\Queue\RedisQueue
@@ -26,8 +26,8 @@ class RedisQueueTest extends \TYPO3\FLOW3\Tests\FunctionalTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$configurationManager = $this->objectManager->get('TYPO3\FLOW3\Configuration\ConfigurationManager');
-		$settings = $configurationManager->getConfiguration(\TYPO3\FLOW3\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'TYPO3.Jobqueue.Redis');
+		$configurationManager = $this->objectManager->get('TYPO3\Flow\Configuration\ConfigurationManager');
+		$settings = $configurationManager->getConfiguration(\TYPO3\Flow\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'TYPO3.Jobqueue.Redis');
 		if (!isset($settings['testing']['enabled']) || $settings['testing']['enabled'] !== TRUE) {
 			$this->markTestSkipped('Test database is not configured');
 		}
