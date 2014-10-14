@@ -1,8 +1,7 @@
 <?php
 namespace TYPO3\Jobqueue\Redis\Queue;
 
-use TYPO3\FLOW3\Package\Package as BasePackage;
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * A queue implementation using Redis as the queue backend
@@ -64,7 +63,7 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	 * (without safety queue)
 	 *
 	 * @param int $timeout
-	 * @return \TYPO3\Jobqueue\Common\Message The received message or NULL if a timeout occured
+	 * @return \TYPO3\Jobqueue\Common\Queue\Message The received message or NULL if a timeout occured
 	 */
 	public function waitAndTake($timeout = NULL) {
 		$timeout !== NULL ? $timeout : $this->defaultTimeout;
@@ -138,7 +137,7 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 			$messages = array();
 			foreach ($result as $value) {
 				$message = $this->decodeMessage($value);
-					// The message is still published and should not be processed!
+				// The message is still published and should not be processed!
 				$message->setState(\TYPO3\Jobqueue\Common\Queue\Message::STATE_PUBLISHED);
 				$messages[] = $message;
 			}
@@ -196,7 +195,6 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	public function getMessage($identifier) {
 		return NULL;
 	}
-
 
 }
 ?>
