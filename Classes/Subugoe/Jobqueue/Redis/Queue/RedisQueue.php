@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\Jobqueue\Redis\Queue;
+namespace Subugoe\Jobqueue\Redis\Queue;
 
 use TYPO3\Flow\Annotations as Flow;
 
@@ -23,7 +23,7 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	/**
 	 * @var integer
 	 */
-	protected $defaultTimeout = 60;
+	protected $defaultTimeout = 120;
 
 	/**
 	 * Constructor
@@ -76,7 +76,7 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 				$this->client->srem("queue:{$this->name}:ids", $message->getIdentifier());
 			}
 
-				// The message is marked as done
+			// The message is marked as done
 			$message->setState(\TYPO3\Jobqueue\Common\Queue\Message::STATE_DONE);
 
 			return $message;
@@ -96,7 +96,7 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	 * @param int $timeout
 	 * @return \TYPO3\Jobqueue\Common\Queue\Message
 	 */
-	public function waitAndReserve($timeout = NULL) {
+	public function waitAndReserve($timeout = 300) {
 		$timeout !== NULL ? $timeout : $this->defaultTimeout;
 		$value = $this->client->brpoplpush("queue:{$this->name}:messages", "queue:{$this->name}:processing", $timeout);
 		if (is_string($value)) {
@@ -197,4 +197,5 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	}
 
 }
+
 ?>

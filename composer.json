@@ -1,7 +1,7 @@
 {
-    "name": "typo3/jobqueue-redis",
+    "name": "subugoe/jobqueue-redis",
     "type": "typo3-flow-package",
-    "description": "",
+    "description": "TYPO3 Jobqueue implementation for Redis.",
     "version": "",
     "require": {
         "typo3/flow": "*",
@@ -9,7 +9,7 @@
     },
     "autoload": {
         "psr-0": {
-            "TYPO3\\Jobqueue\\Redis": "Classes"
+            "Subugoe\\Jobqueue\\Redis": "Classes"
         }
     }
 }

@@ -1,8 +1,8 @@
 <?php
-namespace TYPO3\Jobqueue\Redis\Tests\Functional\Queue;
+namespace Subugoe\Jobqueue\Redis\Tests\Functional\Queue;
 
 /*                                                                        *
- * This script belongs to the TYPO3 Flow package "Jobqueue.Redis".        *
+ * This script belongs to the FLOW3 package "Jobqueue.Redis".                *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU General Public License, either version 3 of the   *
@@ -17,7 +17,7 @@ namespace TYPO3\Jobqueue\Redis\Tests\Functional\Queue;
 class RedisQueueTest extends \TYPO3\Flow\Tests\FunctionalTestCase {
 
 	/**
-	 * @var \TYPO3\Jobqueue\Redis\Queue\RedisQueue
+	 * @var \Subugoe\Jobqueue\Redis\Queue\RedisQueue
 	 */
 	protected $queue;
 
@@ -32,7 +32,7 @@ class RedisQueueTest extends \TYPO3\Flow\Tests\FunctionalTestCase {
 			$this->markTestSkipped('Test database is not configured');
 		}
 
-		$this->queue = new \TYPO3\Jobqueue\Redis\Queue\RedisQueue('Test queue', $settings['testing']);
+		$this->queue = new \Subugoe\Jobqueue\Redis\Queue\RedisQueue('Test queue', $settings['testing']);
 
 		$client = new \Predis\Client($settings['testing']['client']);
 		$client->flushdb();
@@ -124,4 +124,5 @@ class RedisQueueTest extends \TYPO3\Flow\Tests\FunctionalTestCase {
 	}
 
 }
+
 ?>
