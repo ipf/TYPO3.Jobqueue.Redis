@@ -66,7 +66,9 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	 * @return \TYPO3\Jobqueue\Common\Queue\Message The received message or NULL if a timeout occured
 	 */
 	public function waitAndTake($timeout = NULL) {
-		$timeout !== NULL ? $timeout : $this->defaultTimeout;
+		if ($timeout === NULL) {
+			$this->defaultTimeout;
+		}
 		$keyAndValue = $this->client->brpop("queue:{$this->name}:messages", $timeout);
 		$value = $keyAndValue[1];
 		if (is_string($value)) {
@@ -96,8 +98,10 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	 * @param int $timeout
 	 * @return \TYPO3\Jobqueue\Common\Queue\Message
 	 */
-	public function waitAndReserve($timeout = 300) {
-		$timeout !== NULL ? $timeout : $this->defaultTimeout;
+	public function waitAndReserve($timeout = NULL) {
+		if ($timeout === NULL) {
+			$timeout = $this->defaultTimeout;
+		}
 		$value = $this->client->brpoplpush("queue:{$this->name}:messages", "queue:{$this->name}:processing", $timeout);
 		if (is_string($value)) {
 			$message = $this->decodeMessage($value);
@@ -134,7 +138,7 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	public function peek($limit = 1) {
 		$result = $this->client->lrange("queue:{$this->name}:messages", -($limit), -1);
 		if (is_array($result) && count($result) > 0) {
-			$messages = array();
+			$messages = [];
 			foreach ($result as $value) {
 				$message = $this->decodeMessage($value);
 				// The message is still published and should not be processed!
@@ -143,7 +147,7 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 			}
 			return $messages;
 		}
-		return array();
+		return [];
 	}
 
 	/**
@@ -193,9 +197,7 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	 * @return \TYPO3\Jobqueue\Common\Queue\Message
 	 */
 	public function getMessage($identifier) {
-		return NULL;
+		$this->getMessage($identifier)->getIdentifier();
 	}
 
 }
-
-?>
