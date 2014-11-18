@@ -67,7 +67,7 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	 */
 	public function waitAndTake($timeout = NULL) {
 		if ($timeout === NULL) {
-			$this->defaultTimeout;
+			$timeout = $this->defaultTimeout;
 		}
 		$keyAndValue = $this->client->brpop("queue:{$this->name}:messages", $timeout);
 		$value = $keyAndValue[1];
