@@ -31,12 +31,12 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	 * @param string $name
 	 * @param array $options
 	 */
-	public function __construct($name, array $options = array()) {
+	public function __construct($name, array $options = []) {
 		$this->name = $name;
 		if (isset($options['defaultTimeout'])) {
 			$this->defaultTimeout = (integer)$options['defaultTimeout'];
 		}
-		$clientOptions = isset($options['client']) ? $options['client'] : array();
+		$clientOptions = isset($options['client']) ? $options['client'] : [];
 		$this->client = new \Predis\Client($clientOptions);
 	}
 
@@ -102,7 +102,11 @@ class RedisQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 		if ($timeout === NULL) {
 			$timeout = $this->defaultTimeout;
 		}
-		$value = $this->client->brpoplpush("queue:{$this->name}:messages", "queue:{$this->name}:processing", $timeout);
+		try {
+			$value = $this->client->brpoplpush("queue:{$this->name}:messages", "queue:{$this->name}:processing", $timeout);
+		} catch (\Exception $e) {
+			$this->waitAndReserve();
+		}
 		if (is_string($value)) {
 			$message = $this->decodeMessage($value);
 			if ($message->getIdentifier() !== NULL) {
