@@ -4,7 +4,7 @@
     "description": "TYPO3 Jobqueue implementation for Redis.",
     "version": "",
     "require": {
-        "typo3/flow": "*",
+        "neos/flow": "2.2.*",
         "predis/predis": "v1.0.0"
     },
     "autoload": {
